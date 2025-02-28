@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Wallet</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            height: 100vh;
+            overflow-y: auto; /* Allow scrolling */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Align content to the top */
+            align-items: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+        h1, h2 {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        }
+        form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        input, button, select {
+            margin: 10px 0;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        input:focus, button:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        #deposit-options {
+            margin-bottom: 20px;
+        }
+        #deposit-options button {
+            background-color: #007BFF;
+            margin: 0 15px;
+        }
+        #deposit-options button:hover {
+            background-color: #0056b3;
+        }
+        #metamask-form, #stripe-form, #withdraw-section, #send-money-section {
+            margin-top: 30px;
+            animation: slideUp 1s ease-out;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+        select, input {
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            padding: 8px 10px;
+            margin: 10px 0;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #007BFF;
+        }
+        a:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Your Wallet</h1>
+    <p><strong>Deposited via MetaMask: ₹<span id="deposit-metamask">0</span></strong></p>
+    <p><strong>Deposited via Stripe: ₹<span id="deposit-stripe">0</span></strong></p>
+    <p><strong>Total Withdrawn: ₹<span id="total-withdrawn">0</span></strong></p>
+    <p><strong>Remaining Money: ₹<span id="remaining-money">0</span></strong></p>
+
+    <h2>Deposit Money</h2>
+    <div id="deposit-options">
+        <button onclick="showForm('metamask')">Deposit with MetaMask</button>
+        <button onclick="showForm('stripe')">Deposit with Stripe</button>
+    </div>
+
+    <div id="metamask-form" class="form-section">
+        <button onclick="connectMetaMask()">Connect MetaMask</button>
+        <div id="deposit-metamask-form" style="display:none;">
+            <input id="metamask-amount" type="number" placeholder="Enter amount to deposit" min="1" required>
+            <button onclick="handleMetaMaskDeposit()">Confirm Deposit with MetaMask</button>
+        </div>
+    </div>
+
+    <div id="stripe-form" class="form-section">
+        <input id="stripe-amount" type="number" placeholder="Enter amount to deposit" min="1" required>
+        <button onclick="handleStripeDeposit()">Proceed to Stripe Payment</button>
+    </div>
+
+    <h2>Withdraw Money</h2>
+    <button onclick="showWithdrawForm()">Withdraw Money</button>
+
+    <div id="withdraw-section" class="form-section">
+        <h3>Select Currency to Withdraw</h3>
+        <select id="withdraw-currency">
+            <option value="INR">INR</option>
+            <option value="USD">USD</option>
+        </select>
+        <br><br>
+        <h3>Choose Payment Method</h3>
+        <button onclick="showPaymentOptions('upi')">Withdraw via UPI</button>
+        <button onclick="showPaymentOptions('bank')">Withdraw to Bank Account</button>
+
+        <div id="upi-form" class="form-section">
+            <input type="text" id="upi-id" placeholder="Enter UPI ID" required>
+            <input type="number" id="upi-amount" placeholder="Enter amount to withdraw" min="1" required>
+            <button onclick="handleUPIPayment()">Confirm UPI Payment</button>
+        </div>
+
+        <div id="bank-form" class="form-section">
+            <input type="text" placeholder="Enter Bank Account Number" required>
+            <button>Confirm Bank Payment</button>
+        </div>
+    </div>
+
+    <!-- Send Money Section -->
+    <h2>Send Money</h2>
+    <button onclick="showSendMoneyForm()">Send Money</button>
+
+    <div id="send-money-section" class="form-section">
+        <input type="text" id="send-wallet-address" placeholder="Enter Wallet Address" required>
+        <input type="number" id="send-amount" placeholder="Enter Amount (ETH)" min="0.000001" step="0.000001" required>
+        <button onclick="handleSendMoney()">Send Money via MetaMask</button>
+    </div>
+
+    <br>
+    <a href="/">Go to Home</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script>
+        let userAccount = null;
+
+        // Load wallet balance from localStorage on page load
+        window.onload = function() {
+            const depositMetaMask = localStorage.getItem('deposit-metamask') || 0;
+            const depositStripe = localStorage.getItem('deposit-stripe') || 0;
+            const totalWithdrawn = localStorage.getItem('total-withdrawn') || 0;
+
+            document.getElementById('deposit-metamask').textContent = depositMetaMask;
+            document.getElementById('deposit-stripe').textContent = depositStripe;
+            document.getElementById('total-withdrawn').textContent = totalWithdrawn;
+
+            // Calculate remaining money
+            updateRemainingMoney();
+        };
+
+        // Store wallet balance in localStorage
+        function updateDepositMetaMask(amount) {
+            const depositMetaMask = parseFloat(localStorage.getItem('deposit-metamask') || 0) + parseFloat(amount);
+            localStorage.setItem('deposit-metamask', depositMetaMask.toFixed(2));
+            document.getElementById('deposit-metamask').textContent = depositMetaMask.toFixed(2);
+            updateRemainingMoney();
+        }
+
+        function updateDepositStripe(amount) {
+            const depositStripe = parseFloat(localStorage.getItem('deposit-stripe') || 0) + parseFloat(amount);
+            localStorage.setItem('deposit-stripe', depositStripe.toFixed(2));
+            document.getElementById('deposit-stripe').textContent = depositStripe.toFixed(2);
+            updateRemainingMoney();
+        }
+
+        function updateTotalWithdrawn(amount) {
+            const totalWithdrawn = parseFloat(localStorage.getItem('total-withdrawn') || 0) + parseFloat(amount);
+            localStorage.setItem('total-withdrawn', totalWithdrawn.toFixed(2));
+            document.getElementById('total-withdrawn').textContent = totalWithdrawn.toFixed(2);
+            updateRemainingMoney();
+        }
+
+        function updateRemainingMoney() {
+            const depositMetaMask = parseFloat(localStorage.getItem('deposit-metamask') || 0);
+            const depositStripe = parseFloat(localStorage.getItem('deposit-stripe') || 0);
+            const totalWithdrawn = parseFloat(localStorage.getItem('total-withdrawn') || 0);
+
+            const remainingMoney = depositMetaMask + depositStripe - totalWithdrawn;
+            document.getElementById('remaining-money').textContent = remainingMoney.toFixed(2);
+        }
+
+        // Reset all money values
+        function resetAllMoney() {
+            localStorage.removeItem('deposit-metamask');
+            localStorage.removeItem('deposit-stripe');
+            localStorage.removeItem('total-withdrawn');
+            document.getElementById('deposit-metamask').textContent = '0';
+            document.getElementById('deposit-stripe').textContent = '0';
+            document.getElementById('total-withdrawn').textContent = '0';
+            document.getElementById('remaining-money').textContent = '0';
+            alert("All values have been reset to zero.");
+        }
+
+        // Show the respective form based on the selected deposit method
+        function showForm(method) {
+            document.getElementById('metamask-form').style.display = method === 'metamask' ? 'block' : 'none';
+            document.getElementById('stripe-form').style.display = method === 'stripe' ? 'block' : 'none';
+        }
+
+        // Connect MetaMask
+        async function connectMetaMask() {
+            if (typeof window.ethereum === 'undefined') {
+                alert("MetaMask is not installed. Please install MetaMask and try again.");
+                return;
+            }
+
+            try {
+                // Request account connection
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                userAccount = accounts[0]; // Store the connected account
+
+                document.getElementById('metamask-form').innerHTML = `
+                    <p>Connected to MetaMask: ${userAccount}</p>
+                    <input id="metamask-amount" type="number" placeholder="Enter amount to deposit" min="1" required>
+                    <button onclick="handleMetaMaskDeposit()">Confirm Deposit with MetaMask</button>
+                `;
+            } catch (error) {
+                console.error(error);
+                alert("Failed to connect to MetaMask.");
+            }
+        }
+
+        // Handle MetaMask deposit
+        async function handleMetaMaskDeposit() {
+            const amount = document.getElementById('metamask-amount').value;
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid deposit amount.");
+                return;
+            }
+
+            if (typeof window.ethereum === 'undefined') {
+                alert("MetaMask is not installed. Please install MetaMask and try again.");
+                return;
+            }
+
+            try {
+                // Request account connection
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+                if (accounts.length === 0) {
+                    alert("No MetaMask accounts found.");
+                    return;
+                }
+
+                const transactionParams = {
+                    to: "0x18F1217c9b417b56EDcF4B18F0bd746EFA0e78A8", // Replace with your wallet address
+                    from: accounts[0],
+                    value: (amount * 1e18).toString(16), // Convert amount to Wei
+                };
+
+                // Send transaction
+                const txHash = await ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [transactionParams],
+                });
+
+                alert(`Transaction successful! TxHash: ${txHash}`);
+                updateDepositMetaMask(amount);
+            } catch (error) {
+                console.error(error);
+                alert("Transaction failed. Please try again.");
+            }
+        }
+
+        // Handle Stripe deposit
+        async function handleStripeDeposit() {
+            const amount = document.getElementById('stripe-amount').value;
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid deposit amount.");
+                return;
+            }
+
+            try {
+                // Redirect to Stripe checkout with the entered amount
+                const stripeUrl = `/create-checkout-session?amount=${amount}`;
+                const response = await fetch(stripeUrl);
+                const data = await response.json();
+                window.location.href = data.url; // Redirect to Stripe payment page
+                updateDepositStripe(amount);
+            } catch (error) {
+                console.error(error);
+                alert("Error initiating Stripe payment.");
+            }
+        }
+
+        // Handle UPI payment
+        function handleUPIPayment() {
+            const upiId = document.getElementById('upi-id').value;
+            const amount = document.getElementById('upi-amount').value;
+
+            if (!upiId || !amount || amount <= 0) {
+                alert("Please provide a valid UPI ID and amount.");
+                return;
+            }
+
+            // Simulate a successful UPI transaction
+            updateTotalWithdrawn(amount);  // Update the withdrawn total
+            alert("Payment successful! ₹" + amount + " has been deducted from your wallet.");
+        }
+
+        // Show Payment Options
+        function showPaymentOptions(method) {
+            document.getElementById('upi-form').style.display = method === 'upi' ? 'block' : 'none';
+            document.getElementById('bank-form').style.display = method === 'bank' ? 'block' : 'none';
+        }
+
+        function showWithdrawForm() {
+            document.getElementById('withdraw-section').style.display = 'block';
+        }
+
+        // Show Send Money Form
+        function showSendMoneyForm() {
+            document.getElementById('send-money-section').style.display = 'block';
+        }
+
+        // Handle Send Money via MetaMask
+        async function handleSendMoney() {
+            const walletAddress = document.getElementById('send-wallet-address').value;
+            const amount = document.getElementById('send-amount').value;
+
+            if (!walletAddress || !amount || amount <= 0) {
+                alert("Please enter a valid wallet address and amount.");
+                return;
+            }
+
+            if (typeof window.ethereum === 'undefined') {
+                alert("MetaMask is not installed. Please install MetaMask and try again.");
+                return;
+            }
+
+            try {
+                // Request account connection
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length === 0) {
+                    alert("No MetaMask accounts found.");
+                    return;
+                }
+
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+
+                // Convert the amount to Wei
+                const amountInWei = ethers.utils.parseEther(amount);
+
+                // Check if the signer has enough balance for the transaction + gas
+                const balance = await provider.getBalance(accounts[0]);
+                if (balance.lt(amountInWei)) {
+                    alert("Insufficient funds for transaction.");
+                    return;
+                }
+
+                // Send transaction
+                const transaction = await signer.sendTransaction({
+                    to: walletAddress,
+                    value: amountInWei,
+                });
+
+                console.log("Transaction Sent:", transaction);
+
+                const receipt = await transaction.wait();
+                console.log("Transaction Mined:", receipt);
+
+                alert("Payment successful!");
+            } catch (error) {
+                console.error("Transaction failed:", error);
+                alert("Transaction failed: " + error.message);
+            }
+        }
+    </script>
+</body>
+
+</html>

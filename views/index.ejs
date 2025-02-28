@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Crypto Gas Fees & Exchange Rates</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="/script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+        .chart-container {
+            width: 80%;
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+        select {
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        #conversionRate {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h2>📈 Live Blockchain Gas Fee Comparison</h2>
+    <div class="chart-container">
+        <canvas id="gasFeeChart"></canvas>
+    </div>
+
+    <h2>💱 Live Exchange Rate Selection</h2>
+    <label for="currencySelector">Select a Currency:</label>
+    <select id="currencySelector">
+        <option value="usd">USD - United States Dollar</option>
+        <option value="eur">EUR - Euro</option>
+        <option value="inr">INR - Indian Rupee</option>
+        <option value="gbp">GBP - British Pound Sterling</option>
+        <option value="cad">CAD - Canadian Dollar</option>
+        <option value="aud">AUD - Australian Dollar</option>
+        <option value="jpy">JPY - Japanese Yen</option>
+        <option value="sgd">SGD - Singapore Dollar</option>
+        <option value="chf">CHF - Swiss Franc</option>
+        <option value="cny">CNY - Chinese Yuan</option>
+    </select>
+    
+    <div id="conversionRate">1 USDT = Loading...</div>
+</body>
+<script>
+        let gasFeeChart;
+        let gasFeeData = {
+            labels: [],
+            datasets: [
+                {
+                    label: "Ethereum (Gwei)",
+                    borderColor: "#FF5733",
+                    backgroundColor: "rgba(255, 87, 51, 0.2)",
+                    data: [],
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                },
+                {
+                    label: "Polygon (Gwei)",
+                    borderColor: "#33FF57",
+                    backgroundColor: "rgba(51, 255, 87, 0.2)",
+                    data: [],
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                },
+                {
+                    label: "BSC (Gwei)",
+                    borderColor: "#3366FF",
+                    backgroundColor: "rgba(51, 102, 255, 0.2)",
+                    data: [],
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }
+            ]
+        };
+
+        function createChart() {
+            const ctx = document.getElementById("gasFeeChart").getContext("2d");
+            gasFeeChart = new Chart(ctx, {
+                type: "line",
+                data: gasFeeData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: { line: { borderWidth: 2 } },
+                    scales: {
+                        x: { title: { display: true, text: "Time" }, grid: { display: false } },
+                        y: { title: { display: true, text: "Gas Fee (Gwei)" }, beginAtZero: false, grid: { color: "rgba(200, 200, 200, 0.2)" } }
+                    },
+                    plugins: {
+                        legend: { position: "top", labels: { font: { size: 14 } } }
+                    }
+                }
+            });
+        }
+
+        async function fetchGasFees() {
+            try {
+                const response = await fetch("/gas-fees");
+                const data = await response.json();
+                
+                const timestamp = new Date().toLocaleTimeString();
+                const ethereumGas = parseFloat(data.ethereum.SafeGasPrice);
+                const polygonGas = parseFloat(data.polygon.fast.maxFee);
+                const bscGas = parseFloat(data.binance_smart_chain.SafeGasPrice);
+
+                gasFeeData.labels.push(timestamp);
+                gasFeeData.datasets[0].data.push(ethereumGas);
+                gasFeeData.datasets[1].data.push(polygonGas);
+                gasFeeData.datasets[2].data.push(bscGas);
+
+                if (gasFeeData.labels.length > 10) {
+                    gasFeeData.labels.shift();
+                    gasFeeData.datasets.forEach(dataset => dataset.data.shift());
+                }
+
+                gasFeeChart.update();
+
+            } catch (error) {
+                console.error("Error fetching gas fees:", error);
+            }
+        }
+
+        async function fetchUSDTConversion() {
+    const selectedCurrency = document.getElementById("currencySelector").value; // Fix 1: Correct ID
+    try {
+        const response = await fetch(`/usdt-rate?currency=${selectedCurrency}`);
+        const data = await response.json();
+        document.getElementById("conversionRate").textContent = `1 USDT = ${data.rate} ${selectedCurrency}`; // Fix 2: Correct ID
+    } catch (error) {
+        console.error("Error fetching USDT conversion rate:", error);
+        document.getElementById("conversionRate").textContent = "Error fetching rate";
+    }
+}
+
+// Trigger fetch when currency changes
+document.getElementById("currencySelector").addEventListener("change", fetchUSDTConversion);
+
+window.onload = function () {
+    createChart();
+    fetchGasFees();
+    fetchUSDTConversion();
+    setInterval(fetchGasFees, 30000);
+    setInterval(fetchUSDTConversion, 60000);
+};
+    </script>
+
+
+</html>

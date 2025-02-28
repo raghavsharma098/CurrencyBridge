@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoBridge</title>
+    <link rel="stylesheet" href="/css/AddBalance.css">
+    <style>
+        body {
+    background-color: #121212;
+    color: #E0E0E0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 20px;
+    width: 95%;
+    margin: 0 auto;
+    height: auto; /* Adjust height to fit content */
+    background-color: #121212;
+}
+
+.parent div {
+    background-color: #1E1E1E;
+    border-radius: 20px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+}
+
+.div1 {
+    grid-column: span 3 / span 3;
+    grid-row: span 2 / span 2;
+}
+
+.div1 h3 {
+    margin: 0 auto;
+    text-align: center;
+    color: #BB86FC;
+    margin-top: 60px;
+}
+
+.div1 h1 {
+    margin: 0 auto;
+    text-align: center;
+    color: #BB86FC;
+    font-size: 4rem;
+    margin-top: 20px;
+}
+
+.div2 {
+    grid-column: span 2 / span 2;
+    grid-row: span 2 / span 2;
+    grid-column-start: 4;
+    padding: 0 0 20px 20px;
+}
+
+.div2 h3 {
+    margin: 20px 0 20px 20px;
+    color: #BB86FC;
+}
+
+.currency-select {
+    display: flex;
+    align-items: center;
+}
+
+.currency-select img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.div2 p {
+    margin: 20px 0 20px 20px;
+}
+
+.div2 h3 {
+    margin: 30px 0 20px 20px;
+}
+
+.div3 {
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-row-start: 3;
+    padding: 20px;
+    height: auto; /* Adjust height to fit content */
+}
+
+.withdraw-method-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.bank-account-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.withdraw-address-inputs {
+    display: flex;
+    gap: 450px;
+    margin-top: 20px;
+}
+
+.div4 {
+    grid-column: span 2 / span 2;
+    grid-row: span 3 / span 3;
+    grid-column-start: 4;
+    grid-row-start: 3;
+    padding: 30px 0 20px 40px;
+}
+
+.hello {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 20px 10px 20px 10px;
+}
+
+h3 {
+    color: #BB86FC;
+}
+
+label {
+    color: #E0E0E0;
+}
+
+input, select, button {
+    background-color: #333333;
+    color: #E0E0E0;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #BB86FC; /* Add border to text boxes */
+}
+
+#topUpButton, #withdrawButton, #sendMoneyButton, #bankAccountButton, #cryptoAccountButton {
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.bank-account-buttons {
+    box-shadow: 0em 0 .4em #BB86FC;  
+}
+
+.withdraw-sections {
+    margin-top: 25px;
+    box-shadow: 0em 0 .4em #BB86FC;
+    padding: 20px;
+}
+
+.account-type-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.currency-select {
+    margin-top: 20px;
+    margin-left: 55px;
+}
+
+.currency-select img {
+    margin-left: 10px;
+}
+
+.crypto-amount-label {
+    margin-top: 20px;
+    margin-left: 55px;
+}
+
+.submit-butttons-meta {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.fiat-amount-label {
+    margin-left: 55px;
+}
+
+.add-fiat-balance-button {
+    float: right;
+    margin-right: 55px;
+}
+
+.withdraw-section, .send-money-section {
+    background-color: #1E1E1E;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0em 0 .4em #BB86FC;
+    margin-top: 20px;
+}
+
+.withdraw-section h3, .send-money-section h3 {
+    color: #BB86FC;
+}
+
+.withdraw-section label, .send-money-section label {
+    color: #E0E0E0;
+}
+
+.withdraw-section input, .send-money-section input, .withdraw-section select, .send-money-section select, .withdraw-section button, .send-money-section button {
+    background-color: #333333;
+    color: #E0E0E0;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #BB86FC; /* Add border to text boxes */
+}
+
+.withdraw-section button, .send-money-section button {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.withdraw-section button:hover, .send-money-section button:hover {
+    background-color: #BB86FC;
+    color: #121212;
+}
+
+.withdraw-section .withdraw-upi-button, .withdraw-section .withdraw-bank-button, .send-money-section .send-money-button {
+    width: 100%;
+}
+
+button {
+    position: relative;
+    padding: 10px 20px;
+    border-radius: 7px;
+    border: 1px solid #BB86FC;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    background: transparent;
+    color: #E0E0E0;
+    overflow: hidden;
+    box-shadow: 0 0 0 0 transparent;
+    transition: all 0.2s ease-in;
+}
+  
+button:hover {
+    background: #BB86FC;
+    box-shadow: 0 0 30px 5px #BB86FC;
+    transition: all 0.2s ease-out;
+}
+  
+button:hover::before {
+    animation: sh02 0.5s 0s linear;
+}
+  
+button::before {
+    content: '';
+    display: block;
+    width: 0px;
+    height: 86%;
+    position: absolute;
+    top: 7%;
+    left: 0%;
+    opacity: 0;
+    background: #E0E0E0;
+    box-shadow: 0 0 50px 30px #E0E0E0;
+    transform: skewX(-20deg);
+}
+  
+@keyframes sh02 {
+    from {
+        opacity: 0;
+        left: 0%;
+    }
+  
+    50% {
+        opacity: 1;
+    }
+  
+    to {
+        opacity: 0;
+        left: 100%;
+    }
+}
+  
+button:active {
+    box-shadow: 0 0 0 0 transparent;
+    transition: box-shadow 0.2s ease-in;
+}
+    </style>
+</head>
+    <body>
+        <div class="parent">
+            <div class="div1">
+                <h1>Your Wallet</h1>
+                <p><strong>Deposited via MetaMask: ₹<span id="deposit-metamask">0</span></strong></p>
+                <p><strong>Deposited via Stripe: ₹<span id="deposit-stripe">0</span></strong></p>
+                <p><strong>Total Withdrawn: ₹<span id="total-withdrawn">0</span></strong></p>
+                <p><strong>Remaining Money: ₹<span id="remaining-money">0</span></strong></p>
+            </div>
+            <div class="div2">
+                <h3>Details</h3>
+                <p>Account Address:</p>
+                <div><p id="user-account"></p></div>
+                <p>Currency:</p>
+                <div><p>INR</p></div>
+            </div>
+            <div class="div3">
+                <form action="">
+                    <div class="bank-account-buttons">
+                        <button type="button" class="bank-account-button" id="topUpButton">Top Up</button>
+                        <button type="button" class="crypto-account-button" id="withdrawButton">Withdraw</button>
+                        <button type="button" class="crypto-account-button" id="sendMoneyButton">Send Money</button>
+                    </div>
+                    <div class="withdraw-sections">
+                        <div class="account-type-buttons">
+                            <button type="button" class="bank-account-button" id="bankAccountButton">Bank Account</button>
+                            <button type="button" class="crypto-account-button" id="cryptoAccountButton">Crypto Account</button>
+                        </div>
+                        <div class="crypto-currency-select" id="cryptoCurrencySelect">
+                            <div class="currency-select">
+                                <label for="crypto-currency">Select Cryptocurrency:</label>
+                                <img id="cryptoCurrencyLogo" src="/logos/Sepolia.jpeg" alt="Crypto Currency Logo" class="crypto-currency-logo">
+                                <select name="crypto-currency" id="crypto-currency" required class="crypto-currency-dropdown">
+                                    <option value="" disabled>Select a token</option>
+                                    <option value="sepolia_eth" data-logo="/logos/Sepolia.jpeg" selected>Sepolia ETH</option>
+                                    <option value="btc" data-logo="/logos/btc.png">Bitcoin (BTC)</option>
+                                    <option value="eth" data-logo="/logos/eth.png">Ethereum (ETH)</option>
+                                    <option value="polygon" data-logo="/logos/matic.png">Polygon (MATIC)</option>
+                                </select>
+                            </div>
+                            <label for="crypto-amount">Amount:</label>
+                            <input type="number" id="crypto-amount" name="crypto-amount" class="crypto-amount-input" min="1" required>
+                            <div class="submit-butttons-meta">
+                                <button type="button" class="connect-metamask-button" onclick="connectMetaMask()">Connect to Metamask</button>
+                                <button type="button" class="add-crypto-balance-button" onclick="handleMetaMaskDeposit()">Add Balance</button>
+                            </div>
+                        </div>
+                        <div class="fiat-currency-select" id="fiatCurrencySelect" style="display: none;">
+                            <div class="currency-select">
+                                <label for="fiat-currency">Select Currency:</label>
+                                <img id="fiatCurrencyLogo" src="/flags/usd.png" alt="Fiat Currency Logo" class="fiat-currency-logo">
+                                <select name="fiat-currency" id="fiat-currency" required class="fiat-currency-dropdown">
+                                    <option value="" disabled>Select a currency</option>
+                                    <option value="usd" data-logo="/flags/usd.png" selected>US Dollar (USD)</option>
+                                    <option value="eur" data-logo="/flags/eur.png">Euro (EUR)</option>
+                                    <option value="gbp" data-logo="/flags/gbp.png">British Pound (GBP)</option>
+                                    <option value="inr" data-logo="/flags/inr.png">Indian Rupee (INR)</option>
+                                </select>
+                            </div>
+                            <label for="fiat-amount">Amount:</label>
+                            <input type="number" id="fiat-amount" name="fiat-amount" class="fiat-amount-input" min="1" required>
+                            <button type="button" class="add-fiat-balance-button" onclick="handleStripeDeposit()">Add Balance</button>
+                        </div>
+                    </div>
+                    <div class="withdraw-section" style="display: none;">
+                        <h3>Select the currency</h3>
+                        <div class="withdraw-currency-select">
+                            <label for="withdraw-currency">Select Currency:</label>
+                            <select name="withdraw-currency" id="withdraw-currency" required class="withdraw-currency-dropdown">
+                                <option value="" disabled>Select a currency</option>
+                                <option value="usd" selected>US Dollar (USD)</option>
+                                <option value="inr">Indian Rupee (INR)</option>
+                            </select>
+                        </div>
+                        <label for="withdraw-amount">Amount:</label>
+                        <input type="number" id="withdraw-amount" name="withdraw-amount" class="withdraw-amount-input" min="1" required>
+                        <div class="withdraw-method-buttons">
+                            <button type="button" class="withdraw-upi-button" id="withdrawUpiButton">Withdraw via UPI</button>
+                            <button type="button" class="withdraw-bank-button" id="withdrawBankButton">Withdraw via Bank Account</button>
+                        </div>
+                        <div class="withdraw-address-inputs">
+                            <input type="text" id="upi-address" name="upi-address" class="upi-address-input" placeholder="Enter UPI Address" style="display: none;">
+                            <input type="text" id="bank-account-address" name="bank-account-address" class="bank-account-address-input" placeholder="Enter Bank Account Address" style="display: none;">
+                            <button type="button" class="proceed-bank-button" onclick="handleWithdrawal()">Proceed</button>
+                        </div>
+                    </div>
+                    <div class="send-money-section" style="display: none;">
+                        <h3>Send Money</h3>
+                        <label for="send-wallet-address">Wallet Address:</label>
+                        <input type="text" id="send-wallet-address" name="send-wallet-address" class="send-wallet-address-input" placeholder="Enter Wallet Address" required>
+                        <label for="send-amount">Amount (ETH):</label>
+                        <input type="number" id="send-amount" name="send-amount" class="send-amount-input" placeholder="Enter Amount" min="0.000001" step="0.000001" required>
+                        <button type="button" class="send-money-button" onclick="handleSendMoney()">Proceed</button>
+                    </div>
+                </form>
+            </div>
+            <div class="div4">
+                <div><h3>Total Withdrawal:</h3><p class="hello">₹<span id="total-withdrawn-display">0</span></p></div>
+                <div><h3>Total Deposit via Crypto:</h3><p class="hello">₹<span id="deposit-metamask-display">0</span></p></div>
+                <div><h3>Total Deposit via Bank:</h3><p class="hello">₹<span id="deposit-stripe-display">0</span></p></div>
+                <button type="button" class="view-history-button">View History</button>
+                <button type="button" class="view-history-button" onclick="resetAllMoney()">Reset All</button>
+            </div>
+        </div>
+    
+        <script>
+            let userAccount = null;
+    
+            // Load wallet balance from localStorage on page load
+            window.onload = function() {
+                const depositMetaMask = localStorage.getItem('deposit-metamask') || 0;
+                const depositStripe = localStorage.getItem('deposit-stripe') || 0;
+                const totalWithdrawn = localStorage.getItem('total-withdrawn') || 0;
+    
+                document.getElementById('deposit-metamask').textContent = depositMetaMask;
+                document.getElementById('deposit-stripe').textContent = depositStripe;
+                document.getElementById('total-withdrawn').textContent = totalWithdrawn;
+                document.getElementById('deposit-metamask-display').textContent = depositMetaMask;
+                document.getElementById('deposit-stripe-display').textContent = depositStripe;
+                document.getElementById('total-withdrawn-display').textContent = totalWithdrawn;
+    
+                updateRemainingMoney();
+                document.getElementById('cryptoAccountButton').click(); // Default to crypto account
+            };
+    
+            // Update wallet balance in localStorage
+            function updateDepositMetaMask(amount) {
+                const depositMetaMask = parseFloat(localStorage.getItem('deposit-metamask') || 0) + parseFloat(amount);
+                localStorage.setItem('deposit-metamask', depositMetaMask.toFixed(2));
+                document.getElementById('deposit-metamask').textContent = depositMetaMask.toFixed(2);
+                document.getElementById('deposit-metamask-display').textContent = depositMetaMask.toFixed(2);
+                updateRemainingMoney();
+            }
+    
+            function updateDepositStripe(amount) {
+                const depositStripe = parseFloat(localStorage.getItem('deposit-stripe') || 0) + parseFloat(amount);
+                localStorage.setItem('deposit-stripe', depositStripe.toFixed(2));
+                document.getElementById('deposit-stripe').textContent = depositStripe.toFixed(2);
+                document.getElementById('deposit-stripe-display').textContent = depositStripe.toFixed(2);
+                updateRemainingMoney();
+            }
+    
+            function updateTotalWithdrawn(amount) {
+                const totalWithdrawn = parseFloat(localStorage.getItem('total-withdrawn') || 0) + parseFloat(amount);
+                localStorage.setItem('total-withdrawn', totalWithdrawn.toFixed(2));
+                document.getElementById('total-withdrawn').textContent = totalWithdrawn.toFixed(2);
+                document.getElementById('total-withdrawn-display').textContent = totalWithdrawn.toFixed(2);
+                updateRemainingMoney();
+            }
+    
+            function updateRemainingMoney() {
+                const depositMetaMask = parseFloat(localStorage.getItem('deposit-metamask') || 0);
+                const depositStripe = parseFloat(localStorage.getItem('deposit-stripe') || 0);
+                const totalWithdrawn = parseFloat(localStorage.getItem('total-withdrawn') || 0);
+                const remainingMoney = depositMetaMask + depositStripe - totalWithdrawn;
+                document.getElementById('remaining-money').textContent = remainingMoney.toFixed(2);
+            }
+    
+            function resetAllMoney() {
+                localStorage.clear();
+                document.getElementById('deposit-metamask').textContent = '0';
+                document.getElementById('deposit-stripe').textContent = '0';
+                document.getElementById('total-withdrawn').textContent = '0';
+                document.getElementById('deposit-metamask-display').textContent = '0';
+                document.getElementById('deposit-stripe-display').textContent = '0';
+                document.getElementById('total-withdrawn-display').textContent = '0';
+                document.getElementById('remaining-money').textContent = '0';
+                alert("All values have been reset to zero.");
+            }
+    
+            // UI Event Listeners
+            const elements = {
+                cryptoCurrencySelect: document.getElementById('crypto-currency'),
+                cryptoCurrencyLogo: document.getElementById('cryptoCurrencyLogo'),
+                fiatCurrencySelect: document.getElementById('fiat-currency'),
+                fiatCurrencyLogo: document.getElementById('fiatCurrencyLogo'),
+                topUpButton: document.getElementById('topUpButton'),
+                withdrawButton: document.getElementById('withdrawButton'),
+                sendMoneyButton: document.getElementById('sendMoneyButton'),
+                cryptoCurrencySelectDiv: document.getElementById('cryptoCurrencySelect'),
+                fiatCurrencySelectDiv: document.getElementById('fiatCurrencySelect'),
+                withdrawSection: document.querySelector('.withdraw-section'),
+                sendMoneySection: document.querySelector('.send-money-section'),
+                withdrawSections: document.querySelector('.withdraw-sections'),
+                cryptoAccountButton: document.getElementById('cryptoAccountButton'),
+                bankAccountButton: document.getElementById('bankAccountButton'),
+                withdrawUpiButton: document.getElementById('withdrawUpiButton'),
+                withdrawBankButton: document.getElementById('withdrawBankButton'),
+                upiAddressInput: document.getElementById('upi-address'),
+                bankAccountAddressInput: document.getElementById('bank-account-address')
+            };
+    
+            elements.cryptoCurrencySelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                elements.cryptoCurrencyLogo.src = selectedOption.getAttribute('data-logo');
+            });
+    
+            elements.fiatCurrencySelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                elements.fiatCurrencyLogo.src = selectedOption.getAttribute('data-logo');
+            });
+    
+            elements.topUpButton.addEventListener('click', function() {
+                elements.withdrawSections.style.display = 'block';
+                elements.cryptoCurrencySelectDiv.style.display = 'block';
+                elements.fiatCurrencySelectDiv.style.display = 'none';
+                elements.withdrawSection.style.display = 'none';
+                elements.sendMoneySection.style.display = 'none';
+            });
+    
+            elements.withdrawButton.addEventListener('click', function() {
+                elements.withdrawSections.style.display = 'none';
+                elements.cryptoCurrencySelectDiv.style.display = 'none';
+                elements.fiatCurrencySelectDiv.style.display = 'none';
+                elements.withdrawSection.style.display = 'block';
+                elements.sendMoneySection.style.display = 'none';
+            });
+    
+            elements.sendMoneyButton.addEventListener('click', function() {
+                elements.withdrawSections.style.display = 'none';
+                elements.cryptoCurrencySelectDiv.style.display = 'none';
+                elements.fiatCurrencySelectDiv.style.display = 'none';
+                elements.withdrawSection.style.display = 'none';
+                elements.sendMoneySection.style.display = 'block';
+            });
+    
+            elements.cryptoAccountButton.addEventListener('click', function() {
+                elements.cryptoCurrencySelectDiv.style.display = 'block';
+                elements.fiatCurrencySelectDiv.style.display = 'none';
+            });
+    
+            elements.bankAccountButton.addEventListener('click', function() {
+                elements.cryptoCurrencySelectDiv.style.display = 'none';
+                elements.fiatCurrencySelectDiv.style.display = 'block';
+            });
+    
+            elements.withdrawUpiButton.addEventListener('click', function() {
+                elements.upiAddressInput.style.display = 'block';
+                elements.bankAccountAddressInput.style.display = 'none';
+            });
+    
+            elements.withdrawBankButton.addEventListener('click', function() {
+                elements.upiAddressInput.style.display = 'none';
+                elements.bankAccountAddressInput.style.display = 'block';
+            });
+    
+            // MetaMask and Transaction Functions
+            async function connectMetaMask() {
+                if (typeof window.ethereum === 'undefined') {
+                    alert("MetaMask is not installed. Please install MetaMask and try again.");
+                    return;
+                }
+                try {
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    userAccount = accounts[0];
+                    document.getElementById('user-account').textContent = userAccount;
+                    alert(`Connected to MetaMask: ${userAccount}`);
+                } catch (error) {
+                    console.error(error);
+                    alert("Failed to connect to MetaMask.");
+                }
+            }
+    
+            async function handleMetaMaskDeposit() {
+                const amount = document.getElementById('crypto-amount').value;
+                if (!amount || amount <= 0) {
+                    alert("Please enter a valid deposit amount.");
+                    return;
+                }
+                if (!userAccount) {
+                    alert("Please connect to MetaMask first.");
+                    return;
+                }
+                try {
+                    const transactionParams = {
+                        to: "0x18F1217c9b417b56EDcF4B18F0bd746EFA0e78A8", // Replace with your wallet address
+                        from: userAccount,
+                        value: ethers.utils.parseEther(amount).toHexString()
+                    };
+                    const txHash = await ethereum.request({
+                        method: 'eth_sendTransaction',
+                        params: [transactionParams],
+                    });
+                    alert(`Transaction successful! TxHash: ${txHash}`);
+                    updateDepositMetaMask(amount);
+                } catch (error) {
+                    console.error(error);
+                    alert("Transaction failed. Please try again.");
+                }
+            }
+    
+            async function handleStripeDeposit() {
+                const amount = document.getElementById('fiat-amount').value;
+                if (!amount || amount <= 0) {
+                    alert("Please enter a valid deposit amount.");
+                    return;
+                }
+                try {
+                    const stripeUrl = `/create-checkout-session?amount=${amount}`; // Adjust endpoint as needed
+                    const response = await fetch(stripeUrl);
+                    const data = await response.json();
+                    window.location.href = data.url; // Redirect to Stripe payment page
+                    updateDepositStripe(amount); // Optimistic update (adjust based on Stripe callback)
+                } catch (error) {
+                    console.error(error);
+                    alert("Error initiating Stripe payment.");
+                }
+            }
+    
+            function handleWithdrawal() {
+                const amount = document.getElementById('withdraw-amount').value;
+                const upiAddress = document.getElementById('upi-address').value;
+                const bankAddress = document.getElementById('bank-account-address').value;
+                if (!amount || amount <= 0) {
+                    alert("Please enter a valid withdrawal amount.");
+                    return;
+                }
+                if (elements.upiAddressInput.style.display === 'block' && !upiAddress) {
+                    alert("Please provide a valid UPI address.");
+                    return;
+                }
+                if (elements.bankAccountAddressInput.style.display === 'block' && !bankAddress) {
+                    alert("Please provide a valid bank account address.");
+                    return;
+                }
+                updateTotalWithdrawn(amount);
+                alert(`Withdrawal of ₹${amount} successful via ${upiAddress ? 'UPI' : 'Bank'}!`);
+            }
+    
+            async function handleSendMoney() {
+                const walletAddress = document.getElementById('send-wallet-address').value;
+                const amount = document.getElementById('send-amount').value;
+                if (!walletAddress || !amount || amount <= 0) {
+                    alert("Please enter a valid wallet address and amount.");
+                    return;
+                }
+                if (!userAccount) {
+                    alert("Please connect to MetaMask first.");
+                    return;
+                }
+                try {
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+                    const signer = provider.getSigner();
+                    const amountInWei = ethers.utils.parseEther(amount);
+                    const balance = await provider.getBalance(userAccount);
+                    if (balance.lt(amountInWei)) {
+                        alert("Insufficient funds for transaction.");
+                        return;
+                    }
+                    const transaction = await signer.sendTransaction({
+                        to: walletAddress,
+                        value: amountInWei,
+                    });
+                    const receipt = await transaction.wait();
+                    alert("Payment successful!");
+                    updateTotalWithdrawn(amount); // Treat as withdrawal for simplicity
+                } catch (error) {
+                    console.error(error);
+                    alert("Transaction failed: " + error.message);
+                }
+            }
+        </script>
+    </body>
+    </html>
+</script>
+</body>
+</html>

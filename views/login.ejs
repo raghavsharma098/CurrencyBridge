@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="/login.css">
+
+</head>
+
+<body>
+
+  <!-- Login Form -->
+  <div class="container">
+    <h1>Login</h1>
+
+    <!-- Display error messages if any -->
+    <% if (error.length > 0) { %>
+      <ul class="message-list">
+        <% error.forEach(function(msg) { %>
+          <li><%= msg %></li>
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <form action="/login" method="POST">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    
+    <p>Don't have an account? <a href="/register">Register</a></p>
+  </div>
+
+</body>
+
+</html>

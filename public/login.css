@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #ff7300;  /* Bright Orange */
+  --dark-bg: #0d0d0d;  /* Pure Black */
+  --light-gray: #a0a0a0;
+  --white: #ffffff;
+  --border-radius: 8px;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--dark-bg);
+  font-family: 'Titillium Web', sans-serif;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Fade-in and slide-up effect */
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form {
+  background: rgba(20, 20, 20, 0.95);
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 15px rgba(255, 115, 0, 0.4);
+  animation: fadeInSlide 1s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glowing border effect */
+.form::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: var(--border-radius);
+  background: linear-gradient(45deg, #ff7300, #ff9500, #ff7300);
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0.6;
+}
+
+/* Tab group */
+.tab-group {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+  display: flex;
+  overflow: hidden;
+}
+
+.tab-group li {
+  flex: 1;
+}
+
+.tab-group a {
+  display: block;
+  padding: 15px;
+  background: rgba(255, 115, 0, 0.1);
+  color: var(--light-gray);
+  text-align: center;
+  font-size: 18px;
+  transition: background 0.4s ease-in-out;
+}
+
+.tab-group a:hover {
+  background: var(--primary-color);
+  color: var(--white);
+}
+
+.tab-group .active a {
+  background: var(--primary-color);
+  color: var(--white);
+  font-weight: bold;
+}
+
+/* Inputs & Labels */
+label {
+  position: absolute;
+  transform: translateY(6px);
+  left: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  font-size: 18px;
+}
+
+label.active {
+  transform: translateY(35px);
+  left: 5px;
+  font-size: 14px;
+  color: var(--primary-color);
+}
+
+input, textarea {
+  font-size: 18px;
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: 2px solid var(--light-gray);
+  color: var(--white);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Input Glow Animation */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(255, 115, 0, 0.6);
+}
+
+/* Button Animation */
+.button {
+  border: none;
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background: var(--primary-color);
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(255, 115, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.button:hover {
+  background: #ff9500;
+  box-shadow: 0 0 15px rgba(255, 115, 0, 0.6);
+}
+
+/* Button Ripple Effect */
+.button::after {
+  content: "";
+  position: absolute;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.1);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease;
+  border-radius: 50%;
+}
+
+.button:active::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Forgot Password Link */
+.forgot {
+  text-align: right;
+  font-size: 14px;
+  margin-top: -15px;
+  opacity: 0.8;
+}
+
+.forgot a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .form {
+    padding: 30px;
+  }
+
+  .tab-group a {
+    font-size: 16px;
+  }
+}
