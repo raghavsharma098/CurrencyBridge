@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CryptoBridge</title>
-    <link rel="stylesheet" href="/css/AddBalance.css">
     <style>
         body {
     background-color: #121212;
@@ -322,7 +321,7 @@ button:active {
                         <div class="crypto-currency-select" id="cryptoCurrencySelect">
                             <div class="currency-select">
                                 <label for="crypto-currency">Select Cryptocurrency:</label>
-                                <img id="cryptoCurrencyLogo" src="/logos/Sepolia.jpeg" alt="Crypto Currency Logo" class="crypto-currency-logo">
+                                <img id="cryptoCurrencyLogo" src="../images/sepolia.jpeg" alt="Crypto Currency Logo" class="crypto-currency-logo">
                                 <select name="crypto-currency" id="crypto-currency" required class="crypto-currency-dropdown">
                                     <option value="" disabled>Select a token</option>
                                     <option value="sepolia_eth" data-logo="/logos/Sepolia.jpeg" selected>Sepolia ETH</option>
@@ -341,7 +340,7 @@ button:active {
                         <div class="fiat-currency-select" id="fiatCurrencySelect" style="display: none;">
                             <div class="currency-select">
                                 <label for="fiat-currency">Select Currency:</label>
-                                <img id="fiatCurrencyLogo" src="/flags/usd.png" alt="Fiat Currency Logo" class="fiat-currency-logo">
+                                <img id="fiatCurrencyLogo" src="../images/usd.png" alt="Fiat Currency Logo" class="fiat-currency-logo">
                                 <select name="fiat-currency" id="fiat-currency" required class="fiat-currency-dropdown">
                                     <option value="" disabled>Select a currency</option>
                                     <option value="usd" data-logo="/flags/usd.png" selected>US Dollar (USD)</option>
@@ -395,8 +394,9 @@ button:active {
                 <button type="button" class="view-history-button" onclick="resetAllMoney()">Reset All</button>
             </div>
         </div>
-    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
         <script>
+            
             let userAccount = null;
     
             // Load wallet balance from localStorage on page load
