@@ -1124,6 +1124,3 @@ if(process.env.NODE_ENV != "production"){
     console.log("Server is running on http://localhost:8080");
   });
   
-
-// Start Server
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
